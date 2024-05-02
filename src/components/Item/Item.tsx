@@ -10,48 +10,26 @@ interface Props {
 
 function Item({ product }: Props) {
   const [isLoading, setIsLoading] = useState(true);
-  const [productData, setProductData] = useState<Product & { owner: UserState }>({
-    id: 0,
-    user_id: 0,
-    name: "",
-    image: "",
-    city: "",
-    category: "",
-    services: "",
-    description: "",
-    owner: {
+  const [owner, setOwner] = useState<UserState>({
       id: "",
       username: "",
       email: "",
       avatar: "",
       password: ""
-    },
   });
 
   useEffect(() => {
-    console.log('productData', productData)
+    console.log('product', product)
     axios
-      .get(`https://65ba5e3eb4d53c066552bb1a.mockapi.io/products/${product.id}`)
+      .get(`https://65ba5e3eb4d53c066552bb1a.mockapi.io/users/${product.user_id}`)
       .then((response) => {
-        setProductData({ ...response.data, owner: { id: response.data.user_id } });
-      });
-
-    axios
-      .get(`https://65ba5e3eb4d53c066552bb1a.mockapi.io/users/${productData.owner.id}`)
-      .then((response) => {
-        const data = response.data;
-        setProductData((prev) => ({
-          ...prev,
-          owner: {
-            ...prev.owner,
-            data
-          },
+        setOwner(() => ({
+          ...response.data,
         }));
       });
     setIsLoading(false);
-    console.log('productData', productData)
   }, [isLoading]);
-
+  
   return (
     !isLoading && (
       <ItemStyled>
@@ -59,7 +37,7 @@ function Item({ product }: Props) {
           <div className="item__cont">
             <div className="item__cont-pics">
               <div className="item__pic">
-                <img alt="" src={productData.image} />
+                <img alt="" src={product.image} />
               </div>
               <div className="item__right">
                 <div className="item__cont-main">
@@ -70,17 +48,17 @@ function Item({ product }: Props) {
                         justifyContent: "space-between",
                       }}
                     >
-                      <h1>{productData.name}</h1>
+                      <h1>{product.name}</h1>
                     </div>
                   </div>
                   <div className="item__barter-btn">
                     <a
-                      href={`mailto:${productData.owner.email}`}
+                      href={`mailto:${owner?.email}`}
                       style={{ fontWeight: "700" }}
                     >
                       Mail to owner:{" "}
                       <span style={{ fontWeight: "500" }}>
-                        {productData.owner.email}
+                        {owner?.email}
                       </span>
                     </a>
                   </div>
@@ -89,7 +67,7 @@ function Item({ product }: Props) {
             </div>
             <div className="product-description">
               <h3>Description</h3>
-              <p>{productData.description}</p>
+              <p>{product.description}</p>
             </div>
           </div>
         </div>
