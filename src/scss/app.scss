@@ -1,0 +1,36 @@
+@import './variables';
+@import './libs/normalize';
+
+@import './components/button';
+@import './components/item';
+@import './components/offers';
+@import './components/profileReviews';
+@import '../components/OffersNearby/offersNearby';
+@import '../components/ProductsAndService/products-service';
+@import '../components/CardVariant/cardVariant';
+@import "../components/Map/map";
+
+// @import 'bootstrap/dist/css/bootstrap.min.css';
+
+.wrapper {
+    padding: 10px 60px;
+}
+
+.info-about-project {
+
+    position: sticky;
+    top: 0px;
+    padding: 5px;
+
+    font-size: 15px;
+
+    color: #ffffff;
+    text-align: center;
+            // background-color: #224724;
+    background: red;
+    z-index: 100;
+}
+
+.app {
+    background-color: #F9F9F9;
+}
